@@ -1,3 +1,13 @@
+/* AIUNITES Webring Bar */
+.aiunites-bar { background: linear-gradient(90deg, #0a0a0f 0%, #1a1a2e 100%); border-bottom: 1px solid rgba(99, 102, 241, 0.3); padding: 8px 0; font-size: 12px; }
+.aiunites-bar-content { max-width: 1400px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 12px; overflow-x: auto; scrollbar-width: none; }
+.aiunites-bar-content::-webkit-scrollbar { display: none; }
+.aiunites-bar a { color: rgba(255,255,255,0.7); text-decoration: none; white-space: nowrap; transition: color 0.2s; }
+.aiunites-bar a:hover { color: #fff; }
+.aiunites-bar-brand { color: #6366f1 !important; font-weight: 600; }
+.aiunites-bar-brand:hover { color: #818cf8 !important; }
+.aiunites-bar-divider { color: rgba(255,255,255,0.2); }
+
 :root {
   --primary: #0ea5e9;
   --primary-dark: #0284c7;

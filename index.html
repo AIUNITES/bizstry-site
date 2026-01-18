@@ -48,6 +48,24 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
 </head>
 <body>
+  <!-- AIUNITES Webring -->
+  <div class="aiunites-bar">
+    <div class="aiunites-bar-content">
+      <a href="https://aiunites.com" class="aiunites-bar-brand">◆ AIUNITES</a>
+      <span class="aiunites-bar-divider">|</span>
+      <a href="https://aizines.com">AIZines</a>
+      <a href="https://aibyjob.com">AIByJob</a>
+      <a href="https://redomy.com">Redomy</a>
+      <a href="https://videobate.com">VideoBate</a>
+      <a href="https://furnishthings.com">FurnishThings</a>
+      <a href="https://aiyhwh.com">AI YHWH</a>
+      <a href="https://cloudsion.com">Cloudsion</a>
+      <a href="https://gameatica.com">Gameatica</a>
+      <a href="https://uptownit.com">UptownIT</a>
+      <a href="https://inthisworld.com">InThisWorld</a>
+    </div>
+  </div>
+
   <nav class="nav">
     <div class="container nav-container">
       <a href="#" class="logo">🚀 Biz<span>Stry</span></a>
@@ -274,17 +292,26 @@
       </div>
       <div class="footer-bottom">
         <p class="disclaimer">⚠️ This is a demo/concept site. Services shown are not yet available. Pricing is illustrative only.</p>
-        <p>&copy; 2026 BizStry. A product of <a href="https://aiunites.github.io/aiunites-site">AIUNITES</a></p>
+        <p>&copy; 2026 BizStry. A product of <a href="https://aiunites.github.io/aiunites-site">AIUNITES</a> | <a href="https://github.com/AIUNITES/bizstry-site/issues" target="_blank">Developer Feedback</a></p>
       </div>
     </div>
   </footer>
 
-  <a href="https://github.com/AIUNITES/bizstry-site/issues/new?title=Feedback:" target="_blank" class="feedback-btn">💬 Feedback</a>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSeQUi49AdTBRjetz5MDFQgMIkm9-vOMb_ARKwYEz41j_Nfiwg/viewform?usp=pp_url&entry.2053726945=BizStry" target="_blank" class="feedback-btn">💬 Feedback</a>
 
   <script>
     document.getElementById('start-form').addEventListener('submit', function(e) {
       e.preventDefault();
+      const email = this.querySelector('input').value;
       const btn = this.querySelector('button');
+      
+      // Submit to Google Forms
+      const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeQUi49AdTBRjetz5MDFQgMIkm9-vOMb_ARKwYEz41j_Nfiwg/formResponse';
+      const formData = new FormData();
+      formData.append('entry.904300305', email);
+      formData.append('entry.2053726945', 'BizStry');
+      fetch(formUrl, { method: 'POST', body: formData, mode: 'no-cors' });
+      
       btn.textContent = '✓ You\'re on the list!';
       btn.style.background = '#10b981';
       this.querySelector('input').value = '';
