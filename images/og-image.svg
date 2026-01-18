@@ -1,0 +1,19 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0f9ff"/>
+      <stop offset="100%" style="stop-color:#ffffff"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="200" cy="315" r="300" fill="#0ea5e9" opacity="0.1"/>
+  <circle cx="1000" cy="315" r="250" fill="#6366f1" opacity="0.08"/>
+  <text x="600" y="200" font-family="Arial, sans-serif" font-size="80" text-anchor="middle">🚀</text>
+  <text x="600" y="320" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="url(#accent)" text-anchor="middle">BizStry</text>
+  <text x="600" y="400" font-family="Arial, sans-serif" font-size="32" fill="#64748b" text-anchor="middle">Start Your Business Story</text>
+  <text x="600" y="480" font-family="Arial, sans-serif" font-size="24" fill="#94a3b8" text-anchor="middle">LLC Formation • Registered Agent • Compliance</text>
+</svg>
