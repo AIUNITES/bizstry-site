@@ -255,8 +255,9 @@ body{padding-top:68px!important}
           <div class="sso-login-sub">Sign in once, stay signed in across the network</div>
         </div>
         <div class="sso-login-network">
-          <span>BizStry</span><span>AI YHWH</span><span>UptownIT</span><span>+ 14 more</span>
+          <span>BizStry</span><span>AI YHWH</span><span>UptownIT</span>
         </div>
+        <p class="sso-demo-note">⚠️ Demo SSO — for preview purposes only. No real authentication.</p>
         <div class="sso-field">
           <label>Display Name</label>
           <input type="text" id="sso-name-input" placeholder="e.g. Tom" autocomplete="name">
