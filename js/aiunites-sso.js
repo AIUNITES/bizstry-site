@@ -1,5 +1,5 @@
 /**
- * AIUNITES SSO — Shared Single Sign-On for the AIUNITES Network
+ * AIUNITES SSO - Shared Single Sign-On for the AIUNITES Network
  * Drop this script into any AIUNITES site. Because all sites live on
  * aiunites.github.io, they share localStorage automatically.
  *
@@ -7,20 +7,18 @@
  *   - Auth bar below the webring bar with sign-in / profile controls
  *   - Slide-in login panel (no modal overlay)
  *   - Slide-in account panel with editable profile, sites visited
- *   - Cross-site "Signing you in…" toast on arrival
+ *   - Cross-site toast on arrival from another site
  *   - Logout everywhere with one click
  */
 
 (function () {
   'use strict';
 
-  /* ── constants ─────────────────────────────────────────────── */
   const SSO_KEY      = 'aiunites_sso_user';
   const VISIT_KEY    = 'aiunites_sso_last_login_site';
   const SITES_KEY    = 'aiunites_sso_sites_visited';
   const CURRENT_SITE = document.title.split(' - ')[0].split(' | ')[0].trim();
 
-  /* ── helpers ───────────────────────────────────────────────── */
   function getUser () {
     try { return JSON.parse(localStorage.getItem(SSO_KEY)); }
     catch { return null; }
@@ -47,10 +45,8 @@
     return new Date(ts).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   }
 
-  /* ── inject CSS ────────────────────────────────────────────── */
   const css = document.createElement('style');
   css.textContent = `
-/* ---- SSO Auth Bar ---- */
 .aiunites-auth-bar{position:fixed;top:36px;left:0;right:0;z-index:9999;
   background:linear-gradient(90deg,#0d1117,#161b22);border-bottom:1px solid rgba(99,102,241,.18);
   padding:6px 0;font-size:12px;font-family:'Inter',system-ui,sans-serif}
@@ -72,7 +68,6 @@
 .sso-avatar{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a855f7);
   display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;flex-shrink:0}
 
-/* ---- SSO Toast ---- */
 .sso-toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-10px);
   background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;padding:10px 24px;
   border-radius:10px;font-size:13px;font-weight:500;z-index:99999;opacity:0;
@@ -80,7 +75,6 @@
   font-family:'Inter',system-ui,sans-serif;white-space:nowrap}
 .sso-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ---- Shared slide panel ---- */
 .sso-panel{position:fixed;top:0;right:0;width:300px;max-width:92vw;height:100vh;
   background:#0d1117;border-left:1px solid rgba(99,102,241,.22);z-index:99998;
   display:flex;flex-direction:column;transform:translateX(100%);
@@ -102,7 +96,6 @@
 .sso-panel-body{flex:1;overflow-y:auto;padding:22px 20px;scrollbar-width:thin;
   scrollbar-color:rgba(99,102,241,.3) transparent}
 
-/* ---- Login panel ---- */
 .sso-login-logo{text-align:center;margin-bottom:22px}
 .sso-login-logo-mark{width:52px;height:52px;border-radius:14px;
   background:linear-gradient(135deg,#6366f1,#a855f7);
@@ -129,9 +122,12 @@
   transition:opacity .2s;font-family:inherit;margin-top:4px}
 .sso-submit:hover{opacity:.88}
 
-.sso-login-note{color:rgba(255,255,255,.25);font-size:11px;text-align:center;margin-top:14px;line-height:1.5}
+.sso-login-note{color:rgba(255,255,255,.25);font-size:11px;text-align:center;margin-top:12px;line-height:1.5}
+.sso-demo-notice{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);
+  border-radius:7px;padding:8px 12px;margin-top:14px;
+  color:rgba(251,191,36,.7);font-size:11px;text-align:center;line-height:1.5;
+  font-family:'Inter',system-ui,sans-serif}
 
-/* ---- Account panel ---- */
 .sso-acct-avatar-section{text-align:center;padding:4px 0 24px}
 .sso-acct-avatar-lg{width:68px;height:68px;border-radius:50%;
   background:linear-gradient(135deg,#6366f1,#a855f7);
@@ -163,8 +159,7 @@
 .sso-sites{display:flex;flex-wrap:wrap;gap:5px}
 .sso-site-tag{background:rgba(99,102,241,.1);color:#a5b4fc;
   border:1px solid rgba(99,102,241,.18);border-radius:5px;padding:3px 8px;font-size:11px}
-.sso-site-tag.current{background:rgba(99,102,241,.22);border-color:rgba(99,102,241,.45);
-  font-weight:600}
+.sso-site-tag.current{background:rgba(99,102,241,.22);border-color:rgba(99,102,241,.45);font-weight:600}
 
 .sso-net-status{display:flex;align-items:center;gap:8px;
   background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.18);
@@ -179,13 +174,11 @@
   font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
 .sso-signout-btn:hover{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.45)}
 
-/* body offset */
 body{padding-top:68px!important}
 .nav{top:68px!important}
   `;
   document.body.appendChild(css);
 
-  /* ── auth bar ──────────────────────────────────────────────── */
   const bar = document.createElement('div');
   bar.className = 'aiunites-auth-bar';
   bar.innerHTML = `<div class="aiunites-auth-inner">
@@ -203,7 +196,6 @@ body{padding-top:68px!important}
   const rightSlot = bar.querySelector('.aiunites-auth-right');
   const statusEl  = bar.querySelector('.sso-status');
 
-  /* ── toast ─────────────────────────────────────────────────── */
   const toast = document.createElement('div');
   toast.className = 'sso-toast';
   document.body.appendChild(toast);
@@ -214,7 +206,6 @@ body{padding-top:68px!important}
     setTimeout(() => toast.classList.remove('show'), duration || 2500);
   }
 
-  /* ── shared panel shell ─────────────────────────────────────── */
   const backdrop = document.createElement('div');
   backdrop.className = 'sso-panel-backdrop';
   document.body.appendChild(backdrop);
@@ -244,20 +235,18 @@ body{padding-top:68px!important}
 
   backdrop.addEventListener('click', closePanel);
 
-  /* ── login panel ────────────────────────────────────────────── */
   function openLoginPanel () {
     openPanel({
       title: 'Sign in to AIUNITES',
       body: `
         <div class="sso-login-logo">
-          <div class="sso-login-logo-mark">◆</div>
+          <div class="sso-login-logo-mark">&#9670;</div>
           <div class="sso-login-title">One account, every site</div>
           <div class="sso-login-sub">Sign in once, stay signed in across the network</div>
         </div>
         <div class="sso-login-network">
           <span>BizStry</span><span>AI YHWH</span><span>UptownIT</span>
         </div>
-        <p class="sso-demo-note">⚠️ Demo SSO — for preview purposes only. No real authentication.</p>
         <div class="sso-field">
           <label>Display Name</label>
           <input type="text" id="sso-name-input" placeholder="e.g. Tom" autocomplete="name">
@@ -266,8 +255,9 @@ body{padding-top:68px!important}
           <label>Email</label>
           <input type="email" id="sso-email-input" placeholder="you@example.com" autocomplete="email">
         </div>
-        <button class="sso-submit" id="sso-submit-btn">Sign In →</button>
-        <p class="sso-login-note">No password needed. Your info is stored locally<br>and shared across AIUNITES sites.</p>`
+        <button class="sso-submit" id="sso-submit-btn">Sign In &rarr;</button>
+        <p class="sso-login-note">Your info is stored locally in your browser only.</p>
+        <div class="sso-demo-notice">&#9888; Demo purposes only &mdash; not real authentication.</div>`
     }, (p) => {
       p.querySelector('#sso-submit-btn').addEventListener('click', function () {
         const name  = p.querySelector('#sso-name-input').value.trim();
@@ -289,14 +279,12 @@ body{padding-top:68px!important}
         renderLoggedIn(user);
         showToast('Welcome! You\'re signed in across the AIUNITES network.');
       });
-      // Allow Enter key
       p.querySelector('#sso-email-input').addEventListener('keydown', e => {
         if (e.key === 'Enter') p.querySelector('#sso-submit-btn').click();
       });
     });
   }
 
-  /* ── account panel ──────────────────────────────────────────── */
   function openAccountPanel (user) {
     const visited  = getVisitedSites();
     const siteTags = (visited.length ? visited : [CURRENT_SITE])
@@ -312,7 +300,6 @@ body{padding-top:68px!important}
           <div class="sso-acct-email" id="sso-acct-email">${user.email}</div>
           <div class="sso-acct-since">Member since ${formatDate(user.loginTime)}</div>
         </div>
-
         <div class="sso-section">
           <div class="sso-section-label">Edit Profile</div>
           <div class="sso-edit-field">
@@ -326,19 +313,18 @@ body{padding-top:68px!important}
           <button class="sso-save-btn" id="sso-save-btn">Save Changes</button>
           <div class="sso-saved-msg" id="sso-saved-msg"></div>
         </div>
-
         <div class="sso-section">
           <div class="sso-section-label">Sites Visited</div>
           <div class="sso-sites">${siteTags}</div>
         </div>
-
         <div class="sso-section">
           <div class="sso-section-label">Network Status</div>
           <div class="sso-net-status">
             <div class="sso-net-dot"></div>
             <span class="sso-net-text">Active across AIUNITES network</span>
           </div>
-        </div>`,
+        </div>
+        <div class="sso-demo-notice">&#9888; Demo SSO &mdash; for preview purposes only.</div>`,
       footer: `<button class="sso-signout-btn" id="sso-signout-btn">Sign Out of All Sites</button>`
     }, (p) => {
       p.querySelector('#sso-save-btn').addEventListener('click', function () {
@@ -352,14 +338,12 @@ body{padding-top:68px!important}
         p.querySelector('#sso-acct-email').textContent = updated.email;
         renderLoggedIn(updated);
         const msg = p.querySelector('#sso-saved-msg');
-        msg.textContent = '✓ Saved!';
+        msg.textContent = 'Saved!';
         setTimeout(() => { msg.textContent = ''; }, 2000);
-        // update local ref so further saves are correct
-        user.name  = updated.name;
-        user.email = updated.email;
+        user.name     = updated.name;
+        user.email    = updated.email;
         user.initials = updated.initials;
       });
-
       p.querySelector('#sso-signout-btn').addEventListener('click', function () {
         clearUser();
         closePanel();
@@ -369,7 +353,6 @@ body{padding-top:68px!important}
     });
   }
 
-  /* ── render states ──────────────────────────────────────────── */
   function renderLoggedOut () {
     statusEl.textContent = 'AIUNITES Single Sign-On';
     rightSlot.innerHTML = '';
@@ -383,14 +366,12 @@ body{padding-top:68px!important}
   function renderLoggedIn (user) {
     statusEl.textContent = 'Signed in · AIUNITES network';
     rightSlot.innerHTML = '';
-
     const badge = document.createElement('span');
     badge.className = 'sso-user-badge';
     badge.title = 'Open account panel';
-    badge.innerHTML = `<span class="sso-avatar">${user.initials}</span>${user.name} ▾`;
+    badge.innerHTML = `<span class="sso-avatar">${user.initials}</span>${user.name} &#9660;`;
     badge.addEventListener('click', () => openAccountPanel(user));
     rightSlot.appendChild(badge);
-
     const out = document.createElement('button');
     out.className = 'sso-btn';
     out.textContent = 'Sign Out';
@@ -402,12 +383,11 @@ body{padding-top:68px!important}
     rightSlot.appendChild(out);
   }
 
-  /* ── init ───────────────────────────────────────────────────── */
   const user = getUser();
   if (user) {
     const lastSite = localStorage.getItem(VISIT_KEY);
     if (lastSite && lastSite !== CURRENT_SITE) {
-      showToast('✓ Signed in via AIUNITES SSO — welcome to ' + CURRENT_SITE + '!', 3000);
+      showToast('Signed in via AIUNITES SSO - welcome to ' + CURRENT_SITE + '!', 3000);
     }
     localStorage.setItem(VISIT_KEY, CURRENT_SITE);
     trackSiteVisit();
