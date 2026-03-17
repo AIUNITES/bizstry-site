@@ -91,14 +91,16 @@
   <nav class="nav">
     <div class="container nav-container">
       <a href="#" class="logo">🚀 Biz<span>Stry</span></a>
-      <div class="nav-links">
-        <a href="#services">Services</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#how">How It Works</a>
-        <a href="#contact" class="btn btn-primary">Start My Business</a>
+      <div class="nav-links" id="bz-nav">
+        <a href="#services" onclick="bzClose()">Services</a>
+        <a href="#pricing" onclick="bzClose()">Pricing</a>
+        <a href="#how" onclick="bzClose()">How It Works</a>
+        <a href="#contact" class="btn btn-primary" onclick="bzClose()">Start My Business</a>
       </div>
+      <button class="nav-hamburger" id="bz-hbg" aria-label="Menu" onclick="this.classList.toggle('open');document.getElementById('bz-nav').classList.toggle('open')"><span></span><span></span><span></span></button>
     </div>
   </nav>
+  <script>function bzClose(){document.getElementById('bz-nav').classList.remove('open');document.getElementById('bz-hbg').classList.remove('open');}</script>
 
   <section class="hero">
     <div class="container">
