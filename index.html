@@ -97,7 +97,7 @@
         <a href="#how" onclick="bzClose()">How It Works</a>
         <a href="#contact" class="btn btn-primary" onclick="bzClose()">Start My Business</a>
       </div>
-      <button class="nav-hamburger" id="bz-hbg" aria-label="Menu" onclick="this.classList.toggle('open');document.getElementById('bz-nav').classList.toggle('open')"><span></span><span></span><span></span></button>
+      <button class="nav-hamburger" id="bz-hbg" aria-label="Menu" onclick="var m=document.getElementById('bz-nav');m.style.top=this.closest('nav').getBoundingClientRect().bottom+'px';this.classList.toggle('open');m.classList.toggle('open')"><span></span><span></span><span></span></button>
     </div>
   </nav>
   <script>function bzClose(){document.getElementById('bz-nav').classList.remove('open');document.getElementById('bz-hbg').classList.remove('open');}</script>
